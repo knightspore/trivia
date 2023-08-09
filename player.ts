@@ -1,20 +1,36 @@
-import { ServerWebSocket } from "bun";
 import { v4 as uuidv4 } from "uuid";
+import { Msg } from "./message";
 
-export type Player = {
-  id: string;
-  remoteAddress: string;
+export enum Role {
+    Player = 0,
+    Streamer,
+}
+
+export interface Player {
+    id: string,
+    name: string,
+    role: Role,
+    messages: Array<Msg>,
 };
 
-const players: Record<string, Player> = {};
+export interface Streamer extends Player {
+    role: Role.Streamer,
+}
 
-export function getOrCreatePlayer(ws: ServerWebSocket): Player {
-  if (players[ws.remoteAddress]) {
-    return players[ws.remoteAddress];
-  }
-  players[ws.remoteAddress] = {
-    id: uuidv4(),
-    remoteAddress: ws.remoteAddress,
-  };
-  return players[ws.remoteAddress];
+export function createPlayer(name: string, messages?: Array<Msg>): Player {
+    return {
+        id: uuidv4(),
+        name,
+        role: Role.Player,
+        messages: messages ?? [],
+    }
+}
+
+export function createStreamerPlayer(name: string, messages?: Array<Msg>): Streamer {
+    return {
+        id: uuidv4(),
+        name,
+        role: Role.Streamer,
+        messages: messages ?? [],
+    }
 }

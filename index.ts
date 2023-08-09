@@ -1,100 +1,40 @@
-import { ServerWebSocket } from "bun";
-import { TriviaAPI, TriviaCategory } from "./constants";
-import {getOrCreatePlayer} from "./player";
+import { createServerConfig } from "./websocket-server";
+import { Msg } from "./message";
+import { Player } from "./player";
+import { messageHandler } from "./message-handler";
+import { openHander } from "./open-handler";
+import { closeHandler } from "./close-handler";
+import { drainHandler } from "./drain-handler";
 
-let CURRENT_ROUND: Generator<any, any, any>;
+const PLAYERS: Record<string, Player> = {}
+const MESSAGES: Record<string, Msg> = {}
 
-const tdb = await new TriviaAPI()
-  .amount(10)
-  .category(TriviaCategory.Animals)
-  .difficulty("easy")
-  .type("multiple")
-  .get();
+const serverConfig = createServerConfig({
+    port: 3000,
+    onMessage: messageHandler,
+    onOpen: openHander,
+    onClose: closeHandler,
+    onDrain: drainHandler,
+})
 
-Bun.serve({
-  port: 3000,
-  fetch(req, server) {
-    if (server.upgrade(req)) {
-      return; // do not return response for ws
-    }
-  },
-  websocket: {
-    perMessageDeflate: true,
-    async message(ws: ServerWebSocket, message: string | Buffer) {
-      await handleMessage(ws, message);
-    },
-    open(ws: ServerWebSocket) {
-      console.log(`> ${getOrCreatePlayer(ws).id} Connected`);
-    },
-    close(ws: ServerWebSocket, code: number, message: string) {
-      console.log(
-        `> ${getOrCreatePlayer(ws).id} Closed (${code}) - [${message}]`
-      );
-    },
-    drain(ws: ServerWebSocket) {
-      console.log(ws);
-    },
-  },
-});
+Bun.serve(serverConfig);
 
-async function handleMessage(ws: ServerWebSocket, message: string | Buffer) {
-  switch (message) {
-    case "STARTGAME":
-      CURRENT_ROUND = tdb.startRound();
-      sendQuestion(ws);
-      break;
-    case "NEXTQUESTION":
-      sendQuestion(ws);
-      break;
-  }
-}
-
-async function sendQuestion(ws: ServerWebSocket) {
-
-  const { value, done } = CURRENT_ROUND.next();
-
-  if (!done) {
-
-    const { correctAnswer, scrambledAnswers } = scrambleAnswers(
-      value.incorrect_answers,
-      value.correct_answer
-    );
-
-    console.log(`Q: ${value.question}`);
-    console.log(`A: ${scrambledAnswers[correctAnswer]}`);
-
-    ws.send(`${value.question}`);
-
-    let alph = alphabetize();
-
-    for (const option of scrambledAnswers) {
-      let multipleChoiceOption = `> ${alph.next().value}. ${option}`;
-      console.log(multipleChoiceOption);
-      ws.send(multipleChoiceOption);
-    }
-
-  } else {
-
-    ws.send("End of round");
-
-  }
-}
-
-function scrambleAnswers(
-  incorrect_answers: Array<string>,
-  correct_answer: string
-): { correctAnswer: number; scrambledAnswers: Array<string> } {
-  let scrambledAnswers = [...incorrect_answers, correct_answer]
-    .map((v) => ({ v, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ v }) => v);
-  let correctAnswer = scrambledAnswers.indexOf(correct_answer);
-  return { correctAnswer, scrambledAnswers };
-}
-
-const alphabetize = function* () {
-  yield "A";
-  yield "B";
-  yield "C";
-  yield "D";
-};
+/*
+    * wait for...
+    *
+    * startRound() {
+    *   
+    *   openAnswerWindow()
+    *
+    *   sendQuestion()
+    *
+    *   beginTimer()
+    *
+    *   wait() -> ...CollectAnswers() -> ...updateLeaderBoard()
+    *
+    *   endTimer()
+    *
+    *   sendResults()
+    *
+    * }
+    */

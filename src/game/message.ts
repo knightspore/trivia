@@ -10,14 +10,13 @@ export enum Command {
 
 export interface RawMsg {
     command: Command,
-    text: string,
+    text?: string,
 }
 
 export interface Msg extends RawMsg {
     id: string,
     date: string,
 }
-
 
 export function createMsg(text: string, type: Command): Msg {
     return {

@@ -2,8 +2,9 @@
   "name": "trivia",
   "module": "index.ts",
   "type": "module",
-  "devDependencies": {
-    "bun-types": "latest"
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "devclient": "bun run src/client/client.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

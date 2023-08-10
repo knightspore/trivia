@@ -50,7 +50,7 @@ type TriviaQuestion = {
     incorrect_answers: Array<string>;
 };
 
-enum Param {
+export enum Param {
     Amount = "amount",
     Category = "category",
     Difficulty = "difficulty",

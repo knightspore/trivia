@@ -1,6 +1,6 @@
 import { ServerWebSocket, WebSocketServeOptions } from "bun";
-import { RawMsg, createMsg } from "./message";
-import { strOrBufToString } from "./utils";
+import { RawMsg, createMsg } from "../game/message";
+import { strOrBufToString } from "../utils";
 
 export interface ServerConfig {
     port: number,
@@ -34,11 +34,11 @@ export function createServerConfig(cfg: ServerConfig): WebSocketServeOptions {
 export function decodeMessage(message: string | Buffer): { data: any, error: boolean } {
     const raw = strOrBufToString(message);
     const json: RawMsg = JSON.parse(raw)
-    if (!json.text || !json.type) {
+    if (!json.command) {
         return { data: null, error: true }
     }
     return {
-        data: createMsg(json.text, json.type),
+        data: createMsg(json.text ?? "", json.command),
         error: false,
     }
 }

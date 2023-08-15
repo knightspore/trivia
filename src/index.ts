@@ -1,7 +1,7 @@
 import { ServerWebSocket } from "bun";
 import { Msg } from "./game/message";
 import { Player, createPlayer } from "./game/player";
-import { BASE_URL, Category, Param, addParam, getQuestions } from "./game/trivia";
+import { BASE_URL, Category, Param, TriviaQuestion, addParam, getQuestions } from "./game/trivia";
 import { closeHandler } from "./handler/close-handler";
 import { drainHandler } from "./handler/drain-handler";
 import { messageHandler } from "./handler/message-handler";
@@ -35,21 +35,41 @@ export const questions = await getQuestions(API_URL);
 
 // TEMP: Game Logic
 
+type MsgQuestion = {
+    id: string,
+    question: string,
+    answers: Record<string, string>
+}
+
+function createMsgFromQuestion(q: TriviaQuestion): MsgQuestion {
+    const { scrambled } = scramble(q.incorrect_answers, q.correct_answer)
+
+    let message: MsgQuestion = {
+        id: q.id,
+        question: q.question.toString(),
+        answers: {}
+    }
+
+    const alph = alphabetize();
+    for (const answer of scrambled) {
+        let { value } = alph.next()
+        message.answers[`${value}`] = answer
+    }
+
+    return message
+}
+
 export async function startGame(ws: ServerWebSocket) {
     if (questions != null) {
         let i = 1
         for (const question of questions) {
-            let message = ""
-            message += `${i}. ${question.question.toString()}\n\n`
-            const { scrambled } = scramble(question.incorrect_answers, question.correct_answer)
-            const alph = alphabetize();
-            for (const answer of scrambled) {
-                let { value } = alph.next()
-                message += `\t ${value}. ${answer}\n`
-            }
-            ws.send(message)
+
+            ws.send(JSON.stringify(createMsgFromQuestion(question)))
+
             await delay(60000)
-            ws.send(`\n\nAnswer: ${question.correct_answer}\n\n`)
+
+            ws.send(JSON.stringify({ answer: question.correct_answer }))
+
             i++;
         }
     }
@@ -58,7 +78,7 @@ export async function startGame(ws: ServerWebSocket) {
 // 3. Start Server
 
 const serverConfig = createServerConfig({
-    port: 3000,
+    port: 5000,
     onMessage: messageHandler,
     onOpen: openHandler,
     onClose: closeHandler,

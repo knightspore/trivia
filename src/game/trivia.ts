@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid"
+
 export enum Category {
     GeneralKnowledge = 9,
     Books,
@@ -41,7 +43,8 @@ type APIResponse = {
     results: Array<TriviaQuestion>;
 };
 
-type TriviaQuestion = {
+export type TriviaQuestion = {
+    id: string;
     category: Category;
     type: QuestionType;
     difficulty: Difficulty;
@@ -76,5 +79,5 @@ export async function getQuestions(url: URL): Promise<Array<TriviaQuestion> | nu
     if (data.response_code > 0) {
         return null
     }
-    return data.results;
+    return data.results.map((r) => { return { ...r, id: uuidv4() } });
 }

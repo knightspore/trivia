@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run src/index.ts",
+    "dev": "yarn devserver & yarn devclient",
+    "devserver": "bun run src/index.ts",
     "devclient": "bun run src/client/client.ts"
   },
   "peerDependencies": {

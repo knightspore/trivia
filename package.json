@@ -1,11 +1,14 @@
 {
   "name": "trivia",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "dev": "yarn devserver & yarn devclient",
     "devserver": "bun run src/index.ts",
     "devclient": "bun run src/client/client.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

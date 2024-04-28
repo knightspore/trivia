@@ -1,7 +1,8 @@
-import { ServerWebSocket } from "bun";
-import { Msg } from "./game/message";
-import { Player, createPlayer } from "./game/player";
-import { BASE_URL, Category, Param, TriviaQuestion, addParam, getQuestions } from "./game/trivia";
+import type { Msg } from "./game/message";
+import type { Player } from "./game/player";
+import { createPlayer } from "./game/player";
+import type { TriviaQuestion } from "./game/trivia";
+import { BASE_URL, Category, Param, addParam, getQuestions } from "./game/trivia";
 import { closeHandler } from "./handler/close-handler";
 import { drainHandler } from "./handler/drain-handler";
 import { messageHandler } from "./handler/message-handler";
@@ -66,7 +67,7 @@ export async function startGame(ws: ServerWebSocket) {
 
             ws.send(JSON.stringify(createMsgFromQuestion(question)))
 
-            await delay(60000)
+            await delay(1000)
 
             ws.send(JSON.stringify({ answer: question.correct_answer }))
 

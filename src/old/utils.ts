@@ -2,13 +2,13 @@
 export function scramble(
     haystack: Array<string>,
     needle: string
-): { correct: number; scrambled: Array<string> } {
+): { correct_idx: number; scrambled: Array<string> } {
     let scrambled = [...haystack, needle]
         .map((v) => ({ v, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ v }) => v);
     let needle_value = scrambled.indexOf(needle);
-    return { correct: needle_value, scrambled };
+    return { correct_idx: needle_value, scrambled };
 }
 
 export function* alphabetize() {

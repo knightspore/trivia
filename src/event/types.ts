@@ -51,6 +51,8 @@ export const Event = z.object({
     }
 })
 
+export type EventLog = z.infer<typeof Event>[]
+
 export type PlayerReadyData = z.infer<typeof PlayerReadyData>
 export const PlayerReadyData = z.object({
     game_id: z.string(),

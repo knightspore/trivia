@@ -1,7 +1,98 @@
 import { Trivia } from "./trivia";
 import { Category, Difficulty, QuestionStyle, TriviaQuestion } from "./trivia/types";
 import { EventTypes, Event, PlayerAnswerData } from "./event/types";
-import { gameConfiguredEvent, gameNewEvent, gameQuestionEndedEvent, gameQuestionEvent, gameStartedEvent, playerAnswerEvent, playerReadyEvent } from "./event";
+import { gameConfiguredEvent, gameNewEvent, gameQuestionEndedEvent, gameQuestionEvent, gameStartedEvent, newEventLog, playerAnswerEvent, playerReadyEvent, printEvent } from "./event";
+
+// Setup
+
+const game_id = crypto.randomUUID()
+const player_id = crypto.randomUUID()
+
+console.clear()
+console.log("Initializing Trivia Game...")
+
+const { log, push, pos } = newEventLog()
+
+push(gameNewEvent({ game_id }, pos()));
+
+push(gameConfiguredEvent({
+    game_id: "1",
+    config: {
+        category: Category.Film,
+        difficulty: Difficulty.Easy,
+        questionType: QuestionStyle.Multiple,
+        amount: 10,
+    }
+}, pos()))
+
+const questions = await new Trivia(Category.Film, Difficulty.Easy, QuestionStyle.Multiple, 10).getQuestions()
+
+// Ready
+
+console.clear()
+console.log("Trivia Game is ready to start!");
+console.log("Press Enter to start the game...")
+for await (const line of console) {
+    if (line === "")
+        break;
+}
+
+push(playerReadyEvent({
+    game_id,
+    player_id
+}, pos()))
+
+// Game
+
+push(gameStartedEvent({ game_id }, pos()))
+
+for (const q of questions) {
+    console.clear()
+    console.log("Question: ", q.question)
+    console.log("Choices:")
+    q.haystack.forEach((choice, i) => {
+        console.log(`${i + 1}. ${choice}`)
+    })
+
+    push(gameQuestionEvent({ game_id, question: q }, pos()))
+
+    let answer: number = q.question.length + 1;
+    for await (const line of console) {
+        answer = parseInt(line.trim())
+        if (isNaN(answer) || answer < 1 || answer > q.haystack.length) {
+            console.log("Please enter a valid choice")
+            answer = q.question.length + 1
+            continue
+        } else {
+            break
+        }
+    }
+
+    push(playerAnswerEvent({
+        game_id,
+        player_id,
+        question_id: q.id,
+        answer: answer - 1,
+    }, pos()))
+
+    push(gameQuestionEndedEvent({ game_id, question_id: q.id }, pos()))
+}
+
+console.clear();
+console.log("Game Over!")
+console.log("Generating scores...")
+
+// TODO: Hydrate / Project
+
+
+console.clear()
+console.log(`Your Score: ${0}/${0}`)
+
+for await (const line of console) {
+    if (line === "")
+        log.forEach(e => console.log(printEvent(e)))
+        process.exit(0)
+}
 
 interface IGameState {
     id: string;
@@ -15,13 +106,7 @@ interface IGameState {
     trivia: Trivia;
 }
 
-interface IGameControls {
-    log: (e: Event) => void;
-    printEvent: (e: Event) => void;
-    hydrate: () => void;
-}
-
-let g: IGameState & IGameControls = {
+let g: IGameState & any = {
     id: crypto.randomUUID(),
     position: -1,
     ready: false,
@@ -35,12 +120,7 @@ let g: IGameState & IGameControls = {
         this.events.push(e)
     },
     printEvent(e: Event) {
-        process.stdout.write(`\n// ---[${e.type}]\n`)
-        process.stdout.write(`| - id: ${e.id}\n`)
-        process.stdout.write(`| - pos: ${e.position}\n`)
-        process.stdout.write(`| - date: ${e.date}\n`)
-        process.stdout.write(`| - data: ${Object.keys(e.data).join(", ")}\n`)
-        process.stdout.write(`\\\\---[${e.type}]\n`)
+        printEvent(e)
     },
     hydrate() {
         for (const event of this.events) {
@@ -74,89 +154,3 @@ let g: IGameState & IGameControls = {
     }
 }
 
-// Start the Game
-
-console.clear()
-console.log("Initializing Trivia Game...")
-
-const game_id = crypto.randomUUID()
-const player_id = crypto.randomUUID()
-
-g.events.push(gameNewEvent({ game_id: g.id }))
-
-g.log(gameConfiguredEvent({
-    game_id: g.id,
-    config: {
-        category: g.trivia.category,
-        difficulty: g.trivia.difficulty,
-        questionType: g.trivia.questionType,
-        amount: g.trivia.amount,
-    }
-}))
-
-g.questions = await g.trivia.getQuestions()
-
-console.clear()
-console.log("Trivia Game is ready to start!");
-console.log("Press Enter to start the game...")
-
-for await (const line of console) {
-    if (line === "")
-        break;
-}
-
-g.log(playerReadyEvent({ game_id, player_id }))
-g.log(gameStartedEvent({ game_id }))
-
-for (const q of g.questions) {
-    console.clear()
-    console.log("Question: ", q.question)
-    console.log("Choices:")
-    q.haystack.forEach((choice, i) => {
-        console.log(`${i + 1}. ${choice}`)
-    })
-
-    g.log(gameQuestionEvent({ game_id, question: q }))
-
-    let answer: number = q.question.length + 1;
-    for await (const line of console) {
-        answer = parseInt(line.trim())
-        if (isNaN(answer) || answer < 1 || answer > q.haystack.length) {
-            console.log("Please enter a valid choice")
-            answer = q.question.length + 1
-            continue
-        } else {
-            break
-        }
-    }
-
-    g.log(playerAnswerEvent({
-        game_id,
-        player_id,
-        question_id: q.id,
-        answer: answer - 1,
-    }))
-
-    g.log(gameQuestionEndedEvent({ game_id, question_id: q.id }))
-}
-
-console.clear();
-console.log("Game Over!")
-console.log("Generating scores...")
-
-g.hydrate()
-
-console.clear()
-console.log(`Your Score: ${g.score}/${g.total}`)
-
-for await (const line of console) {
-    if (line === "")
-        break;
-}
-
-// Print all events 
-console.clear()
-
-g.events.forEach((e) => {
-    g.printEvent(e)
-})

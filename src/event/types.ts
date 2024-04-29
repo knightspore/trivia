@@ -94,12 +94,6 @@ export const GameQuestionData = z.object({
     question: TriviaQuestion,
 })
 
-export type GameQuestionEndedData = z.infer<typeof GameQuestionEndedData>
-export const GameQuestionEndedData = z.object({
-    game_id: z.string(),
-    question_id: z.string(),
-})
-
 export type GameScoreboardData = z.infer<typeof GameScoreboardData>
 export const GameScoreboardData = z.object({
     game_id: z.string(),

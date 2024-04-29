@@ -1,7 +1,7 @@
 import { Trivia } from "./trivia";
-import { Category, Difficulty, QuestionStyle, TriviaQuestion } from "./trivia/types";
-import { EventTypes, Event, PlayerAnswerData } from "./event/types";
-import { gameConfiguredEvent, gameNewEvent, gameQuestionEndedEvent, gameQuestionEvent, gameStartedEvent, newEventLog, playerAnswerEvent, playerReadyEvent, printEvent } from "./event";
+import { Category, Difficulty, QuestionStyle} from "./trivia/types";
+import { gameConfiguredEvent, gameDestroyedEvent, gameNewEvent, gameQuestionEvent, gameStartedEvent, newEventLog, playerAnswerEvent, playerReadyEvent, printEvent } from "./event";
+import { gameStateProjector } from "./event/projector";
 
 // Setup
 
@@ -16,7 +16,7 @@ const { log, push, pos } = newEventLog()
 push(gameNewEvent({ game_id }, pos()));
 
 push(gameConfiguredEvent({
-    game_id: "1",
+    game_id,
     config: {
         category: Category.Film,
         difficulty: Difficulty.Easy,
@@ -74,83 +74,24 @@ for (const q of questions) {
         question_id: q.id,
         answer: answer - 1,
     }, pos()))
-
-    push(gameQuestionEndedEvent({ game_id, question_id: q.id }, pos()))
 }
+
+push(gameDestroyedEvent({ game_id }, pos()))
 
 console.clear();
 console.log("Game Over!")
 console.log("Generating scores...")
 
-// TODO: Hydrate / Project
 
 
 console.clear()
 console.log(`Your Score: ${0}/${0}`)
 
+// TODO: Hydrate / Project
+console.log(JSON.stringify(gameStateProjector(log), null, 2))
+
 for await (const line of console) {
     if (line === "")
         log.forEach(e => console.log(printEvent(e)))
-        process.exit(0)
+    process.exit(0)
 }
-
-interface IGameState {
-    id: string;
-    position: number;
-    ready: boolean;
-    running: boolean;
-    score: number;
-    total: number;
-    events: Event[];
-    questions: TriviaQuestion[];
-    trivia: Trivia;
-}
-
-let g: IGameState & any = {
-    id: crypto.randomUUID(),
-    position: -1,
-    ready: false,
-    running: false,
-    score: 0,
-    total: 0,
-    events: [],
-    questions: [],
-    trivia: new Trivia(Category.Film, Difficulty.Easy, QuestionStyle.Multiple, 10),
-    log(e: Event) {
-        this.events.push(e)
-    },
-    printEvent(e: Event) {
-        printEvent(e)
-    },
-    hydrate() {
-        for (const event of this.events) {
-            if (this.position < event.position) {
-                this.position = event.position
-                switch (event.type) {
-                    case EventTypes.GameNew:
-                        this.running = true;
-                        break;
-                    case EventTypes.PlayerReady:
-                        this.ready = true;
-                        break;
-                    case EventTypes.GameStarted:
-                        this.score = 0;
-                        break;
-                    case EventTypes.GameQuestion:
-                        this.total++;
-                        break;
-                    case EventTypes.PlayerAnswer:
-                        const { answer, question_id }: PlayerAnswerData = event.data
-                        const question = this.questions.find(q => q.id === question_id)
-                        if (answer == question?.needle) {
-                            this.score++;
-                        }
-                        break;
-                    case EventTypes.GameQuestionEnded:
-                        break;
-                }
-            }
-        }
-    }
-}
-

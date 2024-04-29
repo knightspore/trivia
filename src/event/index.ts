@@ -1,5 +1,5 @@
 import { Event, EventTypes, PlayerAnswerData, PlayerReadyData, type EventLog, type EventType } from "./types"
-import { GameConfiguredData, GameDestroyedData, GameNewData, GameQuestionData, GameQuestionEndedData, GameScoreboardData, GameStartedData } from "./types"
+import { GameConfiguredData, GameDestroyedData, GameNewData, GameQuestionData, GameScoreboardData, GameStartedData } from "./types"
 
 export function newEvent<T>(
     type: EventType,
@@ -59,14 +59,8 @@ export function gameStartedEvent(data: GameStartedData, position: number) {
     return newEvent<GameStartedData>(EventTypes.GameStarted, GameStartedData.parse(data), position)
 }
 
-
 export function gameQuestionEvent(data: GameQuestionData, position: number) {
     return newEvent<GameQuestionData>(EventTypes.GameQuestion, GameQuestionData.parse(data), position)
-}
-
-
-export function gameQuestionEndedEvent(data: GameQuestionEndedData, position: number) {
-    return newEvent<GameQuestionEndedData>(EventTypes.GameQuestionEnded, GameQuestionEndedData.parse(data), position)
 }
 
 export function gameScoreboardEvent(data: GameScoreboardData, position: number) {

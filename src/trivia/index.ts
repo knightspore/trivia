@@ -10,15 +10,15 @@ export class Trivia implements TriviaAPI {
     amount: number;
 
     constructor(
-        category: Category = Category.GeneralKnowledge,
-        difficulty: Difficulty = Difficulty.Easy,
-        questionType: QuestionStyle = QuestionStyle.Multiple,
-        amount: number = 10
+        category?: Category,
+        difficulty?: Difficulty,
+        questionType?: QuestionStyle,
+        amount?: number
     ) {
-        this.category = category;
-        this.difficulty = difficulty;
-        this.questionType = questionType;
-        this.amount = amount;
+        this.category = category ?? Category.GeneralKnowledge;
+        this.difficulty = difficulty ?? Difficulty.Easy;
+        this.questionType = questionType ?? QuestionStyle.Multiple;
+        this.amount = amount ?? 10;
     }
 
     url(): URL {

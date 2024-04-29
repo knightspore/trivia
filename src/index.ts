@@ -1,8 +1,7 @@
 import { Trivia } from "./trivia";
 import { Category, Difficulty, QuestionStyle, TriviaQuestion } from "./trivia/types";
-import { EventTypes, type Event } from "./event";
-import { gameConfiguredEvent, gameNewEvent, gameQuestionEndedEvent, gameQuestionEvent, gameStartedEvent } from "./event/game-event";
-import { PlayerAnswerData, playerAnswerEvent, playerReadyEvent } from "./event/player-event";
+import { EventTypes, Event, PlayerAnswerData } from "./event/types";
+import { gameConfiguredEvent, gameNewEvent, gameQuestionEndedEvent, gameQuestionEvent, gameStartedEvent, playerAnswerEvent, playerReadyEvent } from "./event";
 
 interface IGameState {
     id: string;

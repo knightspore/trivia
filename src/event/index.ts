@@ -56,4 +56,3 @@ export function newEvent<T>(type: EventType, data: T): Event & { data: T } {
     return Event.parse({ type, data }) as unknown as Event & { data: T }
 }
 
-

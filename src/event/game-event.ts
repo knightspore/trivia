@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { EventTypes, newEvent } from "./event"
+import { EventTypes, newEvent } from "./"
 import { Category, Difficulty, QuestionStyle, TriviaQuestion } from "../trivia/types"
 
 export type GameNewData = z.infer<typeof GameNewData>

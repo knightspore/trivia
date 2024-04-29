@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { EventTypes, newEvent } from "./event"
+import { EventTypes, newEvent } from "./"
 
 export type PlayerReadyData = z.infer<typeof PlayerReadyData>
 export const PlayerReadyData = z.object({

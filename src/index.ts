@@ -85,13 +85,17 @@ console.log("Generating scores...")
 
 
 console.clear()
-console.log(`Your Score: ${0}/${0}`)
-
 // TODO: Hydrate / Project
-console.log(JSON.stringify(gameStateProjector(log), null, 2))
+const gameStateProjection = JSON.stringify(gameStateProjector(log), null, 2)
+const gameEvents = JSON.stringify(log, null, 2)
 
-for await (const line of console) {
-    if (line === "")
-        log.forEach(e => console.log(printEvent(e)))
-    process.exit(0)
-}
+const game = Bun.file("gameStateProjection.json")
+const writer = game.writer()
+writer.write(gameStateProjection)
+writer.end()
+
+const events = Bun.file("gameEvents.json")
+const writer2 = events.writer()
+writer2.write(gameEvents)
+writer2.end()
+

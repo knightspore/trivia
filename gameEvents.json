@@ -1,0 +1,464 @@
+[
+  {
+    "id": "7e041c7e-799a-424e-ab2d-0b3b6d3afd19",
+    "date": "Mon Apr 29 2024 23:29:55 GMT+0200 (South Africa Standard Time)",
+    "type": "game-new",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1"
+    },
+    "position": 0
+  },
+  {
+    "id": "5b7b799f-d797-4983-8255-755779511b3d",
+    "date": "Mon Apr 29 2024 23:29:55 GMT+0200 (South Africa Standard Time)",
+    "type": "game-configured",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "config": {
+        "category": 11,
+        "difficulty": "easy",
+        "questionType": "multiple",
+        "amount": 10
+      }
+    },
+    "position": 1
+  },
+  {
+    "id": "2f447faa-cf22-4536-9fbb-78ea01d8bce6",
+    "date": "Mon Apr 29 2024 23:29:57 GMT+0200 (South Africa Standard Time)",
+    "type": "player-ready",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e"
+    },
+    "position": 2
+  },
+  {
+    "id": "20eb5a14-b341-4b08-9965-ae785270d194",
+    "date": "Mon Apr 29 2024 23:29:57 GMT+0200 (South Africa Standard Time)",
+    "type": "game-started",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1"
+    },
+    "position": 3
+  },
+  {
+    "id": "2f9ac14b-3e48-4bd7-9d65-09b666a4421a",
+    "date": "Mon Apr 29 2024 23:29:57 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "0c3ef6c9-9c1a-4ed5-b170-2244ab51c2af",
+        "needle": 3,
+        "haystack": [
+          "Princess Lonestar",
+          "Meatballs",
+          "The Schwartz",
+          "Air"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "In the movie &quot;Spaceballs&quot;, what are the Spaceballs attempting to steal from Planet Druidia?",
+        "correct_answer": "Air",
+        "incorrect_answers": [
+          "The Schwartz",
+          "Princess Lonestar",
+          "Meatballs"
+        ]
+      }
+    },
+    "position": 4
+  },
+  {
+    "id": "f4bec6a5-ad65-4b84-a853-ba8bfb331fc9",
+    "date": "Mon Apr 29 2024 23:30:08 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "44fe158d-ee01-4e13-ad43-8666faf6dd70",
+      "answer": 2
+    },
+    "position": 5
+  },
+  {
+    "id": "7f7ecbd9-035d-46a1-8f3e-e70c24c57217",
+    "date": "Mon Apr 29 2024 23:30:08 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "e9bd32e6-7d42-4ed8-92f7-e34a8f2b8698",
+        "needle": 2,
+        "haystack": [
+          "Kim Demp",
+          "Madison Derpe",
+          "Milla Jovovich",
+          "Milla Johnson"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "Who plays Alice in the Resident Evil movies?",
+        "correct_answer": "Milla Jovovich",
+        "incorrect_answers": [
+          "Madison Derpe",
+          "Milla Johnson",
+          "Kim Demp"
+        ]
+      }
+    },
+    "position": 6
+  },
+  {
+    "id": "93c9045e-2fac-4c82-95b8-cf3ca94ec45d",
+    "date": "Mon Apr 29 2024 23:30:11 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "c798ff23-bd12-40f7-a370-b23abde9c1bd",
+      "answer": 1
+    },
+    "position": 7
+  },
+  {
+    "id": "3c876b75-b25e-413c-b50c-1facaaa9a00a",
+    "date": "Mon Apr 29 2024 23:30:11 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "a83f278b-8c59-451b-a8ab-1d3569b5fd1a",
+        "needle": 0,
+        "haystack": [
+          "Dr. No",
+          "Goldfinger",
+          "From Russia With Love",
+          "Thunderball"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "What was the first James Bond film?",
+        "correct_answer": "Dr. No",
+        "incorrect_answers": [
+          "Goldfinger",
+          "From Russia With Love",
+          "Thunderball"
+        ]
+      }
+    },
+    "position": 8
+  },
+  {
+    "id": "8661a6ef-7955-4364-a8bd-7d1d2d99e2c5",
+    "date": "Mon Apr 29 2024 23:30:18 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "0855f426-1918-44f1-9fd7-207e9d685f6e",
+      "answer": 3
+    },
+    "position": 9
+  },
+  {
+    "id": "ea876a77-11b6-4f2f-8be9-eca0f6046b4d",
+    "date": "Mon Apr 29 2024 23:30:18 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "9bed96a0-80cd-4ffe-8588-d819f208e86f",
+        "needle": 2,
+        "haystack": [
+          "Val Kilmer",
+          "George Clooney",
+          "Michael Keaton",
+          "Adam West"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "Who starred as Bruce Wayne and Batman in Tim Burton&#039;s 1989 movie &quot;Batman&quot;?",
+        "correct_answer": "Michael Keaton",
+        "incorrect_answers": [
+          "George Clooney",
+          "Val Kilmer",
+          "Adam West"
+        ]
+      }
+    },
+    "position": 10
+  },
+  {
+    "id": "735d5c88-bac0-4a9c-a1c5-ca5ad63fb785",
+    "date": "Mon Apr 29 2024 23:30:21 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "c12844e0-25bf-4758-991f-c9345f3ae5ee",
+      "answer": 3
+    },
+    "position": 11
+  },
+  {
+    "id": "7d450941-1364-4f93-a910-26740e2de914",
+    "date": "Mon Apr 29 2024 23:30:21 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "22476520-926b-4c51-be09-0d78c213f37c",
+        "needle": 2,
+        "haystack": [
+          "Mothra",
+          "King Kong",
+          "Anguirus",
+          "King Ghidora"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "What was the first monster to appear alongside Godzilla?",
+        "correct_answer": "Anguirus",
+        "incorrect_answers": [
+          "King Kong",
+          "Mothra",
+          "King Ghidora"
+        ]
+      }
+    },
+    "position": 12
+  },
+  {
+    "id": "0c0f69c1-4b99-4d60-a57f-ea8558356a0e",
+    "date": "Mon Apr 29 2024 23:30:26 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "e29e9744-c066-4f94-aa77-b608fc24c7e2",
+      "answer": 1
+    },
+    "position": 13
+  },
+  {
+    "id": "8b3c358c-05a3-45c6-8403-22b3db78614e",
+    "date": "Mon Apr 29 2024 23:30:26 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "70499cf2-cf34-4495-a616-d6568d3fa4db",
+        "needle": 3,
+        "haystack": [
+          "Liam Neeson",
+          "Alec Guinness",
+          "Hayden Christensen",
+          "Ewan McGregor"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "Which actor plays Obi-Wan Kenobi in Star Wars Episodes I-lll?",
+        "correct_answer": "Ewan McGregor",
+        "incorrect_answers": [
+          "Alec Guinness",
+          "Hayden Christensen",
+          "Liam Neeson"
+        ]
+      }
+    },
+    "position": 14
+  },
+  {
+    "id": "c995100a-884b-4d13-8102-f8ef05657b17",
+    "date": "Mon Apr 29 2024 23:30:29 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "25557274-81b2-4d2e-97c0-fc111683db7f",
+      "answer": 2
+    },
+    "position": 15
+  },
+  {
+    "id": "12c85fbf-2f7c-4bd1-8249-0b417b88f3a9",
+    "date": "Mon Apr 29 2024 23:30:29 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "6188d44a-0566-45a6-8d93-d3487311b023",
+        "needle": 1,
+        "haystack": [
+          "David Lean",
+          "Quentin Tarantino",
+          "Arnold Schwarzenegger",
+          "Stanley Kubrick"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "Who directed the Kill Bill movies?",
+        "correct_answer": "Quentin Tarantino",
+        "incorrect_answers": [
+          "Arnold Schwarzenegger",
+          "David Lean",
+          "Stanley Kubrick"
+        ]
+      }
+    },
+    "position": 16
+  },
+  {
+    "id": "615986bc-8114-489c-a925-e7433a89c1df",
+    "date": "Mon Apr 29 2024 23:30:32 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "7d42a3ba-ba0d-4ef7-975f-c9029aa58059",
+      "answer": 0
+    },
+    "position": 17
+  },
+  {
+    "id": "93f0b431-5802-4dd1-bfc3-1ddaed57a0a8",
+    "date": "Mon Apr 29 2024 23:30:32 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "47a788c0-6b98-4a54-a12c-709cc7036c32",
+        "needle": 3,
+        "haystack": [
+          "Dalmatian",
+          "Shiba Inu",
+          "Golden Retriever",
+          "Labrador Retriever"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "What breed of dog was Marley in the film &quot;Marley &amp; Me&quot; (2008)?",
+        "correct_answer": "Labrador Retriever",
+        "incorrect_answers": [
+          "Golden Retriever",
+          "Dalmatian",
+          "Shiba Inu"
+        ]
+      }
+    },
+    "position": 18
+  },
+  {
+    "id": "d6f8dd40-715b-4c10-a68f-3b3bfe25eca8",
+    "date": "Mon Apr 29 2024 23:30:37 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "549bae03-32ce-492f-ba95-37380a1183b2",
+      "answer": 1
+    },
+    "position": 19
+  },
+  {
+    "id": "a9ab63d4-7b4d-48a9-9005-3c381812d569",
+    "date": "Mon Apr 29 2024 23:30:37 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "90b16adb-dbbc-445a-bc39-08640fddcb23",
+        "needle": 1,
+        "haystack": [
+          "Friday",
+          "Wilson",
+          "Billy",
+          "Jones"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "What name did Tom Hanks give to his volleyball companion in the film `Cast Away`?",
+        "correct_answer": "Wilson",
+        "incorrect_answers": [
+          "Friday",
+          "Jones",
+          "Billy"
+        ]
+      }
+    },
+    "position": 20
+  },
+  {
+    "id": "1bc8b2e5-e307-4752-8e4d-4def4246feac",
+    "date": "Mon Apr 29 2024 23:30:41 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "5f109a5a-6dcb-405b-b99e-1e315739a5bc",
+      "answer": 2
+    },
+    "position": 21
+  },
+  {
+    "id": "b4fa5195-33b5-4979-ba7d-e2eb7493a5da",
+    "date": "Mon Apr 29 2024 23:30:41 GMT+0200 (South Africa Standard Time)",
+    "type": "game-question",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "question": {
+        "id": "9cec7777-6bb7-4f84-814b-e3a5cc8dc65b",
+        "needle": 3,
+        "haystack": [
+          "South Dakota",
+          "North Dakota",
+          "Wisconsin",
+          "Minnesota"
+        ],
+        "type": "multiple",
+        "difficulty": "easy",
+        "category": "Entertainment: Film",
+        "question": "The 1996 film &#039;Fargo&#039; is primarily set in which US state?",
+        "correct_answer": "Minnesota",
+        "incorrect_answers": [
+          "North Dakota",
+          "South Dakota",
+          "Wisconsin"
+        ]
+      }
+    },
+    "position": 22
+  },
+  {
+    "id": "821b5405-3667-4f2e-b98f-f8312bd6d1c6",
+    "date": "Mon Apr 29 2024 23:30:46 GMT+0200 (South Africa Standard Time)",
+    "type": "player-answer",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1",
+      "player_id": "778e8729-3843-4c77-9a15-5e7a407efe0e",
+      "question_id": "643adb1b-e801-40eb-8e4a-43cd487bd5d4",
+      "answer": 3
+    },
+    "position": 23
+  },
+  {
+    "id": "9a95d477-ae0c-4780-8bb3-c638927ecae6",
+    "date": "Mon Apr 29 2024 23:30:46 GMT+0200 (South Africa Standard Time)",
+    "type": "game-destroyed",
+    "data": {
+      "game_id": "79a0d4f0-c37d-4eaa-aa0d-d7a227f05aa1"
+    },
+    "position": 24
+  }
+]

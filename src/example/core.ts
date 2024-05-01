@@ -47,14 +47,11 @@ export class GameState extends EventLog implements IGameState {
                 case EventTypes.GameConfigured:
                     this.configured = event.data;
                     break;
-                case EventTypes.GameStarted:
-                    this.started_at = event.date;
-                    break;
-                case EventTypes.GameDestroyed:
-                    this.ended_at = event.date;
-                    break;
                 case EventTypes.PlayerReady:
                     this.ready = event.data;
+                    break;
+                case EventTypes.GameStarted:
+                    this.started_at = event.date;
                     break;
                 case EventTypes.GameQuestion:
                     this.questions = this.questions ?? [];
@@ -64,6 +61,9 @@ export class GameState extends EventLog implements IGameState {
                     this.total += 1;
                     this.score += (this.questions?.find((q) => q.question.id === event.data.question_id))
                         ?.question.needle === event.data.answer ? 1 : 0;
+                    break;
+                case EventTypes.GameDestroyed:
+                    this.ended_at = event.date;
                     break;
             }
         }

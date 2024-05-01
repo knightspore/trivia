@@ -1,23 +1,23 @@
 import { z } from "zod";
 import { APIErrorMessages, API_PATH, BASE_URL } from "./constants";
-import { APIResponse, APIResponseCode, Category, Difficulty, QuestionStyle, TriviaQuestion, type ITrivia } from "./types";
+import { APIResponse, APIResponseCode, Category, Difficulty, QuestionFormat, TriviaQuestion, type ITrivia } from "./types";
 
 export class Trivia implements ITrivia {
 
     category: Category;
     difficulty: Difficulty;
-    questionType: QuestionStyle;
+    questionType: QuestionFormat;
     amount: number;
 
     constructor(
         category?: Category,
         difficulty?: Difficulty,
-        questionType?: QuestionStyle,
+        questionType?: QuestionFormat,
         amount?: number
     ) {
         this.category = category ?? Category.GeneralKnowledge;
         this.difficulty = difficulty ?? Difficulty.Easy;
-        this.questionType = questionType ?? QuestionStyle.Multiple;
+        this.questionType = questionType ?? QuestionFormat.Multiple;
         this.amount = amount ?? 10;
     }
 

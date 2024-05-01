@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { Category, Difficulty, QuestionStyle, TriviaQuestion } from "../trivia/types"
+import { Category, Difficulty, QuestionFormat, TriviaQuestion } from "../trivia/types"
 
 export enum EventTypes {
     // Setup
@@ -57,7 +57,7 @@ export const GameConfiguredData = z.object({
     config: z.object({
         category: z.nativeEnum(Category),
         difficulty: z.nativeEnum(Difficulty),
-        questionType: z.nativeEnum(QuestionStyle),
+        questionType: z.nativeEnum(QuestionFormat),
         amount: z.number(),
     }),
 })

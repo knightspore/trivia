@@ -37,7 +37,7 @@ export class GameState extends EventLog implements IGameState {
     }
 
     hydrate(): void {
-        const events = this.projector();
+        const events = this.project();
         for (const event of events) {
             this.lastHydrated = event.position;
             switch (event.type) {

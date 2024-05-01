@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test"
 import { Trivia } from "../trivia"
-import { Category, Difficulty, QuestionStyle, type TriviaQuestion } from "../trivia/types"
+import { Category, Difficulty, QuestionFormat, type TriviaQuestion } from "../trivia/types"
 import { EventLog } from "../event"
 import { GameState } from "./core"
 import { EventTypes } from "./types"
@@ -10,12 +10,12 @@ const player_id = crypto.randomUUID()
 
 const category = Category.History
 const difficulty = Difficulty.Easy
-const questionType = QuestionStyle.Multiple
+const questionType = QuestionFormat.Multiple
 const amount = 10
 
 let trivia: Trivia;
 let questions: TriviaQuestion[];
-let gameState: GameState;
+let game: GameState;
 
 describe("Trivia", () => {
 
@@ -36,28 +36,28 @@ describe("Trivia", () => {
 describe("GameState", () => {
 
     it("should initialize", () => {
-        gameState = new GameState();
+        game = new GameState();
 
-        expect(gameState).toBeInstanceOf(GameState)
-        expect(gameState).toBeInstanceOf(EventLog)
+        expect(game).toBeInstanceOf(GameState)
+        expect(game).toBeInstanceOf(EventLog)
     })
 
     it("should create and project new game event", () => {
-        gameState.push(gameState.newEvent(EventTypes.GameNew, { game_id }))
+        game.push(game.create(EventTypes.GameNew, { game_id }))
 
-        const [event] = gameState.projector({ type: EventTypes.GameNew })
+        const [event] = game.project({ type: EventTypes.GameNew })
 
         expect(event.data.game_id).toBe(game_id)
     })
 
 
     it("should create and project config event", () => {
-        gameState.push(gameState.newEvent(EventTypes.GameConfigured, {
+        game.push(game.create(EventTypes.GameConfigured, {
             game_id,
             config: { category, difficulty, questionType, amount }
         }))
 
-        const [event] = gameState.projector({ type: EventTypes.GameConfigured })
+        const [event] = game.project({ type: EventTypes.GameConfigured })
 
         expect(event.data.game_id).toBe(game_id)
         expect(event.data.config.category).toBe(category)
@@ -67,40 +67,40 @@ describe("GameState", () => {
     })
 
     it("should create and project player ready event", () => {
-        gameState.push(gameState.newEvent(EventTypes.PlayerReady, { game_id, player_id }))
+        game.push(game.create(EventTypes.PlayerReady, { game_id, player_id }))
 
-        const [event] = gameState.projector({ type: EventTypes.PlayerReady })
+        const [event] = game.project({ type: EventTypes.PlayerReady })
 
         expect(event.data.game_id).toBe(game_id)
         expect(event.data.player_id).toBe(player_id)
     })
 
     it("should create and project start event", () => {
-        gameState.push(gameState.newEvent(EventTypes.GameStarted, { game_id }))
+        game.push(game.create(EventTypes.GameStarted, { game_id }))
 
-        const [event] = gameState.projector({ type: EventTypes.GameStarted })
+        const [event] = game.project({ type: EventTypes.GameStarted })
 
         expect(event.data.game_id).toBe(game_id)
     })
 
     it("should create and project question event", () => {
-        gameState.push(gameState.newEvent(EventTypes.GameQuestion, { game_id, question: questions[0] }))
+        game.push(game.create(EventTypes.GameQuestion, { game_id, question: questions[0] }))
 
-        const [event] = gameState.projector({ type: EventTypes.GameQuestion })
+        const [event] = game.project({ type: EventTypes.GameQuestion })
 
         expect(event.data.game_id).toBe(game_id)
         expect(event.data.question).toBe(questions[0])
     })
 
     it("should create and project player answer event", () => {
-        gameState.push(gameState.newEvent(EventTypes.PlayerAnswer, {
+        game.push(game.create(EventTypes.PlayerAnswer, {
             game_id,
             player_id,
             question_id: questions[0].id,
             answer: questions[0].needle
         }))
 
-        const [event] = gameState.projector({ type: EventTypes.PlayerAnswer })
+        const [event] = game.project({ type: EventTypes.PlayerAnswer })
 
         expect(event.data.game_id).toBe(game_id)
         expect(event.data.player_id).toBe(player_id)
@@ -109,36 +109,36 @@ describe("GameState", () => {
     })
 
     it("should create and project destroy event", () => {
-        gameState.push(gameState.newEvent(EventTypes.GameDestroyed, { game_id }))
+        game.push(game.create(EventTypes.GameDestroyed, { game_id }))
 
-        const [event] = gameState.projector({ type: EventTypes.GameDestroyed })
+        const [event] = game.project({ type: EventTypes.GameDestroyed })
 
         expect(event.data.game_id).toBe(game_id)
     })
 
     it("should hydrate game state with values", () => {
-        gameState.hydrate()
+        game.hydrate()
 
-        expect(gameState.id).toBe(game_id)
-        expect(gameState.started_at).toBeDefined()
-        expect(gameState.ended_at).toBeDefined()
-        if (gameState.ended_at) {
-            expect(gameState.started_at).toBeLessThanOrEqual(gameState.ended_at)
+        expect(game.id).toBe(game_id)
+        expect(game.started_at).toBeDefined()
+        expect(game.ended_at).toBeDefined()
+        if (game.ended_at) {
+            expect(game.started_at).toBeLessThanOrEqual(game.ended_at)
         }
 
-        expect(gameState.configured).toBeDefined()
-        expect(gameState.configured!.config.category).toBe(category)
-        expect(gameState.configured!.config.difficulty).toBe(difficulty)
-        expect(gameState.configured!.config.questionType).toBe(questionType)
-        expect(gameState.configured!.config.amount).toBe(amount)
+        expect(game.configured).toBeDefined()
+        expect(game.configured!.config.category).toBe(category)
+        expect(game.configured!.config.difficulty).toBe(difficulty)
+        expect(game.configured!.config.questionType).toBe(questionType)
+        expect(game.configured!.config.amount).toBe(amount)
 
-        expect(gameState.ready).toBeDefined()
-        expect(gameState.score).toBe(1)
-        expect(gameState.total).toBe(1)
-        expect(gameState.questions).toHaveLength(1)
+        expect(game.ready).toBeDefined()
+        expect(game.score).toBe(1)
+        expect(game.total).toBe(1)
+        expect(game.questions).toHaveLength(1)
 
-        expect(gameState.lastHydrated).toBeDefined()
-        expect(gameState.lastHydrated).toBe(6)
+        expect(game.lastHydrated).toBeDefined()
+        expect(game.lastHydrated).toBe(6)
     })
 
 })

@@ -13,7 +13,7 @@ export function newEvent<T>(
 export type EventFilters = {
     type?: string
     from?: number
-    fields?: Record<string, any>
+    fields?: Record<string, string | number | boolean | null>
 }
 
 export function projector<T>(
@@ -48,7 +48,7 @@ export class EventLog implements IEventLog {
         this.position = 0
     }
 
-    newEvent<T>(type: string, data: T): Event & { data: T } {
+    create<T>(type: string, data: T): Event & { data: T } {
         const event = newEvent(type, data, this.position)
         this.position += 1
         return event
@@ -63,7 +63,7 @@ export class EventLog implements IEventLog {
         return this.log.length
     }
 
-    projector<T>(filters?: EventFilters): TypedEvent<T>[] {
+    project<T>(filters?: EventFilters): TypedEvent<T>[] {
         return projector<T>(this.log, filters ?? {})
     }
 

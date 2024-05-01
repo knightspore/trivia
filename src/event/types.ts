@@ -19,10 +19,10 @@ export type TypedEvent<T> = Event & { data: T };
 export interface IEventLog {
     log: Event[]
     position: number
-    newEvent<T>(type: string, data: T, position: number): Event & { data: T }
+    create<T>(type: string, data: T, position: number): Event & { data: T }
     push(event: Event): void
     pos(): number
-    projector<T>(filters?: EventFilters): Array<TypedEvent<T>>
+    project<T>(filters?: EventFilters): Array<TypedEvent<T>>
     printEvent(e: Event): string
 }
 

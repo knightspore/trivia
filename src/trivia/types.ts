@@ -27,23 +27,16 @@ export enum Category {
     Cartoons,
 }
 
-export const CategoryIDs = z.nativeEnum(Category);
-
-
 export enum Difficulty {
     Easy = "easy",
     Medium = "medium",
     Hard = "hard",
 }
 
-export const Difficulties = z.nativeEnum(Difficulty);
-
-export enum QuestionStyle {
+export enum QuestionFormat {
     Multiple = "multiple",
     Boolean = "boolean",
 }
-
-export const QuestionFormat = z.nativeEnum(QuestionStyle);
 
 export enum APIResponseCode {
     Success = 0,
@@ -90,7 +83,7 @@ export const TriviaQuestion = APIResult.transform((q) => {
 export interface ITrivia {
     category: Category;
     difficulty: Difficulty;
-    questionType: QuestionStyle;
+    questionType: QuestionFormat;
     amount: number;
     url(): URL;
     getQuestions(): Promise<TriviaQuestion[]>;

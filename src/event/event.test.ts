@@ -2,10 +2,10 @@ import { describe, it, expect } from "bun:test"
 import { EventLog } from "./"
 
 const log = new EventLog()
-const event = log.newEvent("type-a", { test: "hello" })
+const event = log.create("type-a", { test: "hello" })
 log.push(event)
-log.push(log.newEvent("type-b", { test: "world" }))
-log.push(log.newEvent("type-b", { test: "again" }))
+log.push(log.create("type-b", { test: "world" }))
+log.push(log.create("type-b", { test: "again" }))
 
 describe("EventLog", () => {
 
@@ -18,7 +18,7 @@ describe("EventLog", () => {
     })
 
     it("projector should filter by fields", () => {
-        const events = log.projector({ fields: { test: "again" } })
+        const events = log.project({ fields: { test: "again" } })
 
         expect(events.length).toBe(1)
         expect(events[0].type).toBe("type-b")
@@ -26,14 +26,14 @@ describe("EventLog", () => {
     })
 
     it("projector should filter by type", () => {
-        const events = log.projector({ type: "type-a" })
+        const events = log.project({ type: "type-a" })
 
         expect(events.length).toBe(1)
         expect(events[0].type).toBe("type-a")
     })
 
     it("projector should filter by from", () => {
-        const events = log.projector({ from: 1 })
+        const events = log.project({ from: 1 })
 
         expect(events.length).toBe(2)
         expect(events[0].type).toBe("type-b")
@@ -41,7 +41,7 @@ describe("EventLog", () => {
     })
 
     it("projector should filter by multiple filters", () => {
-        const events = log.projector({
+        const events = log.project({
             type: "type-b",
             fields: { test: "world" },
             from: 1

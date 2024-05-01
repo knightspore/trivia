@@ -27,6 +27,8 @@ export enum Category {
     Cartoons,
 }
 
+export const CategoryIDs = z.nativeEnum(Category);
+
 
 export enum Difficulty {
     Easy = "easy",
@@ -34,10 +36,14 @@ export enum Difficulty {
     Hard = "hard",
 }
 
+export const Difficulties = z.nativeEnum(Difficulty);
+
 export enum QuestionStyle {
     Multiple = "multiple",
     Boolean = "boolean",
 }
+
+export const QuestionFormat = z.nativeEnum(QuestionStyle);
 
 export enum APIResponseCode {
     Success = 0,

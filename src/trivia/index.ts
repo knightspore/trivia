@@ -37,7 +37,7 @@ export class Trivia implements ITrivia {
         try {
             const { response_code, results } = APIResponse.parse(json);
             if (response_code !== APIResponseCode.Success) {
-                throw new Error(`API Error: ${APIErrorMessages[response_code]}`);
+                throw new Error(APIErrorMessages[response_code] ?? `Unknown Error: ${response_code}`);
             }
             return z.array(TriviaQuestion).parse(results);
         } catch (e) {

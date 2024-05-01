@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { APIErrorMessages, API_PATH, BASE_URL } from "./constants";
 import { APIResponse, APIResponseCode, Category, Difficulty, QuestionFormat, TriviaQuestion, type ITrivia } from "./types";
 
 export class Trivia implements ITrivia {
@@ -22,8 +21,8 @@ export class Trivia implements ITrivia {
     }
 
     url(): URL {
-        const url = new URL(BASE_URL);
-        url.pathname = API_PATH;
+        const url = new URL("https://opentdb.com");
+        url.pathname = "/api.php";
         url.searchParams.append("amount", this.amount.toString());
         url.searchParams.append("category", this.category.toString());
         url.searchParams.append("difficulty", this.difficulty);
@@ -37,7 +36,17 @@ export class Trivia implements ITrivia {
         try {
             const { response_code, results } = APIResponse.parse(json);
             if (response_code !== APIResponseCode.Success) {
-                throw new Error(APIErrorMessages[response_code] ?? `Unknown Error: ${response_code}`);
+                throw new Error(
+                    {
+                        0: "Success",
+                        1: "No Results",
+                        2: "Invalid Parameter",
+                        3: "Token Not Found",
+                        4: "Token Empty",
+                        5: "Undocumented Error"
+                    }[response_code]
+                    ?? `Unknown Error: ${response_code}`
+                );
             }
             return z.array(TriviaQuestion).parse(results);
         } catch (e) {

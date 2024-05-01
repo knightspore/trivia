@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { APIErrorMessages, API_PATH, BASE_URL } from "./constants";
-import { APIResponse, APIResponseCode, Category, Difficulty, QuestionStyle, TriviaQuestion, type TriviaAPI } from "./types";
+import { APIResponse, APIResponseCode, Category, Difficulty, QuestionStyle, TriviaQuestion, type ITrivia } from "./types";
 
-export class Trivia implements TriviaAPI {
+export class Trivia implements ITrivia {
 
     category: Category;
     difficulty: Difficulty;
@@ -34,11 +34,15 @@ export class Trivia implements TriviaAPI {
     async getQuestions() {
         const res = await fetch(this.url().toString());
         const json = await res.json();
-        const { response_code, results } = APIResponse.parse(json);
-        if (response_code !== APIResponseCode.Success) {
-            throw new Error(`API Error: ${APIErrorMessages[response_code]}`);
+        try {
+            const { response_code, results } = APIResponse.parse(json);
+            if (response_code !== APIResponseCode.Success) {
+                throw new Error(`API Error: ${APIErrorMessages[response_code]}`);
+            }
+            return z.array(TriviaQuestion).parse(results);
+        } catch (e) {
+            throw new Error(`API Error: ${e}`);
         }
-        return z.array(TriviaQuestion).parse(results);
     }
 
 }

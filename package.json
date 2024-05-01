@@ -3,9 +3,8 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "yarn devserver & yarn devclient",
-    "devserver": "bun run src/index.ts",
-    "devclient": "bun run src/client/client.ts"
+    "example": "rm gameEvents.json gameStateProjection.json; bun run src/example/index.ts",
+    "lint": "eslint"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -14,6 +13,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@eslint/js": "^9.1.1",
+    "eslint": "^9.1.1",
+    "ohash": "^1.1.3",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0",
     "zod": "^3.23.4"
   }
 }

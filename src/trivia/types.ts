@@ -27,6 +27,7 @@ export enum Category {
     Cartoons,
 }
 
+
 export enum Difficulty {
     Easy = "easy",
     Medium = "medium",
@@ -43,11 +44,12 @@ export enum APIResponseCode {
     NoResults = 1,
     InvalidParameter = 2,
     TokenNotFound = 3,
-    TokenEmpty = 4
+    TokenEmpty = 4,
+    Unknown = 5
 }
 
-export type APIResult = z.infer<typeof APIResult>
-export const APIResult = z.object({
+type APIResult = z.infer<typeof APIResult>
+const APIResult = z.object({
     type: z.string(),
     difficulty: z.string(),
     category: z.string(),
@@ -79,7 +81,7 @@ export const TriviaQuestion = APIResult.transform((q) => {
     }
 })
 
-export interface TriviaAPI {
+export interface ITrivia {
     category: Category;
     difficulty: Difficulty;
     questionType: QuestionStyle;

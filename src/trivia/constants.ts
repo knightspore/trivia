@@ -8,5 +8,6 @@ export const APIErrorMessages: Record<APIResponseCode, string> = {
     1: "No Results",
     2: "Invalid Parameter",
     3: "Token Not Found",
-    4: "Token Empty"
+    4: "Token Empty",
+    5: "???"
 }

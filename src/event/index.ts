@@ -43,9 +43,9 @@ export class EventLog implements IEventLog {
     log: Event[]
     position: number
 
-    constructor() {
-        this.log = [] as Event[]
-        this.position = 0
+    constructor(log?: Event[], position?: number) {
+        this.log = log ?? [] 
+        this.position = position ?? 0
     }
 
     create<T>(type: string, data: T): Event & { data: T } {

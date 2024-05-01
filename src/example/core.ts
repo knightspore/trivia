@@ -1,5 +1,5 @@
 import { EventLog } from "../event";
-import type { IEventLog } from "../event/types";
+import type { Event, IEventLog } from "../event/types";
 import { EventTypes, GameConfiguredData, GameQuestionData, PlayerReadyData } from "./types";
 
 
@@ -30,8 +30,8 @@ export class GameState extends EventLog implements IGameState {
 
     lastHydrated?: number;
 
-    constructor() {
-        super()
+    constructor(log?: Event[], position?: number) {
+        super(log ?? [], position ?? 0)
         this.score = 0;
         this.total = 0;
     }

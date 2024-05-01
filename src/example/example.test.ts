@@ -18,6 +18,7 @@ let questions: TriviaQuestion[];
 let gameState: GameState;
 
 describe("Trivia", () => {
+
     it("should initialize", () => {
         trivia = new Trivia(category, difficulty, questionType, amount)
         expect(trivia).toBeInstanceOf(Trivia)
@@ -27,103 +28,90 @@ describe("Trivia", () => {
         questions = await trivia.getQuestions()
         expect(questions).toHaveLength(amount)
     })
+
 })
 
 describe("EventLog", () => {
+
     it("should initialize", () => {
         gameState = new GameState();
         expect(gameState).toBeInstanceOf(EventLog)
-        expect(gameState.log).toHaveLength(0)
-        expect(gameState.pos()).toBe(0)
     })
 
-    it("gameNewEvent", () => {
+    it("should create and project new game event", () => {
         gameState.push(gameState.newEvent(EventTypes.GameNew, { game_id }, gameState.pos()))
-        expect(gameState.log).toHaveLength(1)
-        expect(gameState.pos()).toBe(1)
+        const [event] = gameState.projector({ type: EventTypes.GameNew })
+        expect(event.data.game_id).toBe(game_id)
     })
 
-    it("gameNewProjector", () => {
-        const events = gameState.gameNewProjector()
-        expect(events[0].data.game_id).toBe(game_id)
-    })
 
-    it("gameConfiguredEvent", () => {
+    it("should create and project config event", () => {
         gameState.push(gameState.newEvent(EventTypes.GameConfigured, {
             game_id,
             config: { category, difficulty, questionType, amount }
         }, gameState.pos()))
-        expect(gameState.log).toHaveLength(2)
-        expect(gameState.pos()).toBe(2)
+        const [event] = gameState.projector({ type: EventTypes.GameConfigured })
+        expect(event.data.game_id).toBe(game_id)
+        expect(event.data.config.category).toBe(category)
+        expect(event.data.config.difficulty).toBe(difficulty)
+        expect(event.data.config.questionType).toBe(questionType)
+        expect(event.data.config.amount).toBe(amount)
     })
 
-    it("gameConfiguredProjector", () => {
-        const events = gameState.gameConfiguredProjector()
-        expect(events[0].data.game_id).toBe(game_id)
-        expect(events[0].data.config.category).toBe(category)
-        expect(events[0].data.config.difficulty).toBe(difficulty)
-        expect(events[0].data.config.questionType).toBe(questionType)
-        expect(events[0].data.config.amount).toBe(amount)
-    })
-
-    it("playerReadyEvent", () => {
+    it("should create and project player ready event", () => {
         gameState.push(gameState.newEvent(EventTypes.PlayerReady, { game_id, player_id }, gameState.pos()))
-        expect(gameState.log).toHaveLength(3)
-        expect(gameState.pos()).toBe(3)
+        const [event] = gameState.projector({ type: EventTypes.PlayerReady })
+        expect(event.data.game_id).toBe(game_id)
+        expect(event.data.player_id).toBe(player_id)
     })
 
-    it("playerReadyProjector", () => {
-        const events = gameState.playerReadyProjector()
-        expect(events[0].data.game_id).toBe(game_id)
-        expect(events[0].data.player_id).toBe(player_id)
-    })
-
-    it("gameStartedEvent", () => {
+    it("should create and project start event", () => {
         gameState.push(gameState.newEvent(EventTypes.GameStarted, { game_id }, gameState.pos()))
-        expect(gameState.log).toHaveLength(4)
-        expect(gameState.pos()).toBe(4)
+        const [event] = gameState.projector({ type: EventTypes.GameStarted })
+        expect(event.data.game_id).toBe(game_id)
     })
 
-    it("gameStartedProjector", () => {
-        const events = gameState.gameStartedProjector()
-        expect(events[0].data.game_id).toBe(game_id)
-    })
-
-    it("gameQuestionEvent", () => {
+    it("should create and project question event", () => {
         gameState.push(gameState.newEvent(EventTypes.GameQuestion, { game_id, question: questions[0] }, gameState.pos()))
-        expect(gameState.log).toHaveLength(5)
-        expect(gameState.pos()).toBe(5)
+        const [event] = gameState.projector({ type: EventTypes.GameQuestion })
+        expect(event.data.game_id).toBe(game_id)
+        expect(event.data.question).toBe(questions[0])
     })
 
-    it("gameQuestionProjector", () => {
-        const events = gameState.gameQuestionProjector()
-        expect(events[0].data.game_id).toBe(game_id)
-        expect(events[0].data.question).toBe(questions[0])
-    })
-
-    it("playerAnswerEvent", () => {
+    it("should create and project player answer event", () => {
         gameState.push(gameState.newEvent(EventTypes.PlayerAnswer, {
             game_id,
             player_id,
             question_id: questions[0].id,
             answer: 0
         }, gameState.pos()))
-        expect(gameState.log).toHaveLength(6)
-        expect(gameState.pos()).toBe(6)
+        const [event] = gameState.projector({ type: EventTypes.PlayerAnswer })
+        expect(event.data.game_id).toBe(game_id)
+        expect(event.data.player_id).toBe(player_id)
+        expect(event.data.question_id).toBe(questions[0].id)
+        expect(event.data.answer).toBe(0)
     })
 
-    it("playerAnswerProjector", () => {
-        const events = gameState.playerAnswerProjector()
-        expect(events[0].data.game_id).toBe(game_id)
-        expect(events[0].data.player_id).toBe(player_id)
-        expect(events[0].data.question_id).toBe(questions[0].id)
-        expect(events[0].data.answer).toBe(0)
-    })
-
-    it("gameDestroyedEvent", () => {
+    it("should create and project destroy event", () => {
         gameState.push(gameState.newEvent(EventTypes.GameDestroyed, { game_id }, gameState.pos()))
-        expect(gameState.log).toHaveLength(7)
-        expect(gameState.pos()).toBe(7)
+        const [event] = gameState.projector({ type: EventTypes.GameDestroyed })
+        expect(event.data.game_id).toBe(game_id)
     })
+
+    it.todo("should have set 'id'")
+
+    it.todo("should have set 'started_at'")
+
+    it.todo("should have set 'ended_at'")
+
+    it.todo("should have set 'configured'")
+
+    it.todo("should have set 'ready'")
+
+    it.todo("should have set 'score'")
+
+    it.todo("should have set 'total'")
+
+    it.todo("should have set 'questions'")
 
 })

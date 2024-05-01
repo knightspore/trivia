@@ -1,4 +1,5 @@
 import { z } from "zod"
+import type { EventFilters } from ".";
 
 export type Event = z.infer<typeof Event>
 export const Event = z.object({
@@ -21,7 +22,7 @@ export interface IEventLog {
     newEvent<T>(type: string, data: T, position: number): Event & { data: T }
     push(event: Event): void
     pos(): number
-    projector<T>(type: string, position: number): Array<TypedEvent<T>>
+    projector<T>(filters?: EventFilters): Array<TypedEvent<T>>
     printEvent(e: Event): string
 }
 

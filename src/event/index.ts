@@ -10,12 +10,33 @@ export function newEvent<T>(
     return Event.parse({ id, date, type, data, position }) as unknown as Event & { data: T }
 }
 
+export type EventFilters = {
+    type?: string
+    from?: number
+    fields?: Record<string, any>
+}
+
 export function projector<T>(
     log: Event[],
-    type: string,
-    position: number = 0
+    filters: EventFilters
 ): Array<TypedEvent<T>> {
-    return log.slice(position).filter((e) => e.type === type) as TypedEvent<T>[]
+    log = log.slice(filters.from ?? 0)
+    if (filters.type) {
+        log = log.filter((e) => e.type === filters.type)
+    }
+    if (filters.fields && Object.keys(filters.fields).length > 0) {
+        log = log.filter((e) => {
+            const keys = Object.keys(filters.fields ?? {});
+            for (const k of keys) {
+                const data = e.data[k]
+                if (data !== filters.fields?.[k]) {
+                    return false
+                }
+                return true
+            }
+        })
+    }
+    return log as TypedEvent<T>[]
 }
 
 export class EventLog implements IEventLog {
@@ -28,7 +49,9 @@ export class EventLog implements IEventLog {
     }
 
     newEvent<T>(type: string, data: T, position: number): Event & { data: T } {
-        return newEvent(type, data, position)
+        const event = newEvent(type, data, position)
+        this.position += 1
+        return event
     }
 
     push(event: Event) {
@@ -36,11 +59,12 @@ export class EventLog implements IEventLog {
     }
 
     pos() {
+        if (this.log.length !== this.position) throw new Error("EventLog position mismatch")
         return this.log.length
     }
 
-    projector<T>(type: string, position: number): TypedEvent<T>[] {
-        return projector<T>(this.log, type, position)
+    projector<T>(filters?: EventFilters): TypedEvent<T>[] {
+        return projector<T>(this.log, filters ?? {})
     }
 
     printEvent(e: Event): string {

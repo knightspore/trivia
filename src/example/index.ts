@@ -1,7 +1,6 @@
 import { Trivia } from "../trivia";
 import { Category, Difficulty, QuestionStyle } from "../trivia/types";
-import { gameConfiguredEvent, gameDestroyedEvent, gameNewEvent, gameQuestionEvent, gameStartedEvent, newEventLog, playerAnswerEvent, playerReadyEvent } from "../event";
-import { gameStateProjector } from "../event/projector";
+import { GameState } from "./core";
 
 // Utils
 
@@ -25,11 +24,11 @@ const amount = 10
 console.clear()
 console.log("Initializing Trivia Game...")
 
-const { log, push, pos } = newEventLog()
+const game = new GameState()
 
-push(gameNewEvent({ game_id }, pos()));
+game.push(gameNewEvent({ game_id }, pos()));
 
-push(gameConfiguredEvent({
+game.push(gameConfiguredEvent({
     game_id,
     config: { category, difficulty, questionType, amount }
 }, pos()))
@@ -44,14 +43,14 @@ console.log("Press Enter to start the game...")
 
 await waitForInput()
 
-push(playerReadyEvent({
+game.push(playerReadyEvent({
     game_id,
     player_id
 }, pos()))
 
 // Game
 
-push(gameStartedEvent({ game_id }, pos()))
+game.push(gameStartedEvent({ game_id }, pos()))
 
 for (const item of triviaData) {
     console.clear()
@@ -62,7 +61,7 @@ for (const item of triviaData) {
         console.log(`${i + 1}. ${choice}`)
     })
     
-    push(gameQuestionEvent({ game_id, question: item }, pos()))
+    game.push(gameQuestionEvent({ game_id, question: item }, pos()))
 
     let answer: number = -1;
     for await (const line of console) {
@@ -72,7 +71,7 @@ for (const item of triviaData) {
             answer = -1
             continue
         } else {
-            push(playerAnswerEvent({
+            game.push(playerAnswerEvent({
                 game_id,
                 player_id,
                 question_id: item.id,
@@ -84,7 +83,7 @@ for (const item of triviaData) {
 
 }
 
-push(gameDestroyedEvent({ game_id }, pos()))
+game.push(gameDestroyedEvent({ game_id }, pos()))
 
 console.clear();
 console.log("Game Over!")

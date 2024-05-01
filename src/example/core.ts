@@ -3,7 +3,7 @@ import type { Event, IEventLog } from "../event/types";
 import { EventTypes, GameConfiguredData, GameQuestionData, PlayerReadyData } from "./types";
 
 
-interface IGameState extends IEventLog {
+export interface IGameState extends IEventLog {
     id?: string;
     started_at?: number;
     ended_at?: number;

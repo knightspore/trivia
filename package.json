@@ -3,7 +3,7 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "example": "rm gameEvents.json gameStateProjection.json; bun run src/example/index.ts",
+    "example": "bun run src/example/index.ts",
     "lint": "eslint"
   },
   "devDependencies": {

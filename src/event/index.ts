@@ -39,6 +39,15 @@ export function projector<T>(
     return log as TypedEvent<T>[]
 }
 
+export function printEvent(e: Event): string {
+    return `\n// ---[${e.type}]\n`
+        + `|| - id: ${e.id}\n`
+        + `|| - pos: ${e.position}\n`
+        + `|| - date: ${e.date}\n`
+        + `|| - data: ${Object.keys(e.data).join(", ")}\n`
+        + `\\\\---[${e.type}]\n`
+}
+
 export class EventLog implements IEventLog {
     log: Event[]
     position: number
@@ -48,7 +57,7 @@ export class EventLog implements IEventLog {
         this.position = position ?? 0
     }
 
-    create<T>(type: string, data: T): Event & { data: T } {
+    create = <T>(type: string, data: T): Event & { data: T } => {
         const event = newEvent(type, data, this.position)
         this.position += 1
         return event
@@ -68,12 +77,8 @@ export class EventLog implements IEventLog {
     }
 
     printEvent(e: Event): string {
-        return `\n// ---[${e.type}]\n`
-            + `|| - id: ${e.id}\n`
-            + `|| - pos: ${e.position}\n`
-            + `|| - date: ${e.date}\n`
-            + `|| - data: ${Object.keys(e.data).join(", ")}\n`
-            + `\\\\---[${e.type}]\n`
+        return printEvent(e)
     }
 }
+
 

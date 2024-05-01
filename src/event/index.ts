@@ -7,13 +7,7 @@ export function newEvent<T>(
 ): Event & { data: T } {
     const id = crypto.randomUUID()
     const date = new Date().getTime()
-    return Event.parse({
-        id,
-        date,
-        type,
-        data,
-        position
-    }) as unknown as Event & { data: T }
+    return Event.parse({ id, date, type, data, position }) as unknown as Event & { data: T }
 }
 
 export function projector<T>(
@@ -21,13 +15,7 @@ export function projector<T>(
     type: string,
     position: number = 0
 ): Array<TypedEvent<T>> {
-    const events = [] as TypedEvent<T>[];
-    for (const event of log.slice(position)) {
-        if (event.type === type) {
-            events.push(event as TypedEvent<T>)
-        }
-    }
-    return events;
+    return log.slice(position).filter((e) => e.type === type) as TypedEvent<T>[]
 }
 
 export class EventLog implements IEventLog {

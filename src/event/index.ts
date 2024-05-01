@@ -48,8 +48,8 @@ export class EventLog implements IEventLog {
         this.position = 0
     }
 
-    newEvent<T>(type: string, data: T, position: number): Event & { data: T } {
-        const event = newEvent(type, data, position)
+    newEvent<T>(type: string, data: T): Event & { data: T } {
+        const event = newEvent(type, data, this.position)
         this.position += 1
         return event
     }

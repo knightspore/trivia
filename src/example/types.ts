@@ -11,8 +11,6 @@ export enum EventTypes {
     GameStarted = "game-started",
     GameQuestion = "game-question",
     PlayerAnswer = "player-answer",
-    GameQuestionEnded = "game-question-ended",
-    GameEnded = "game-ended",
 
     // Teardown
     GameDestroyed = "game-destroyed",
@@ -29,8 +27,6 @@ export const EventType = z.union([
     z.literal(EventTypes.GameStarted),
     z.literal(EventTypes.GameQuestion),
     z.literal(EventTypes.PlayerAnswer),
-    z.literal(EventTypes.GameQuestionEnded),
-    z.literal(EventTypes.GameEnded),
 
     // Teardown
     z.literal(EventTypes.GameDestroyed),

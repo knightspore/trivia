@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: monospace;
 }
+

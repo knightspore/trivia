@@ -8,8 +8,19 @@ export default function App() {
     return (
         <StrictMode>
             <GameContextProvider>
-                <main style={styles.app}>
-                    <div style={styles.game}>
+                <main style={{
+                    display: "grid",
+                    gap: "1rem",
+                    gridTemplateColumns: "1fr 1fr",
+                    width: "100vw",
+                    height: "100vh",
+                }}>
+                    <div style={{
+                        padding: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                    }}>
                         <h1>A Quick game of Trivia</h1>
                         <GameScreenSwitcher />
                     </div>
@@ -18,20 +29,4 @@ export default function App() {
             </GameContextProvider>
         </StrictMode>
     )
-}
-
-const styles = {
-    app: {
-        display: "grid",
-        gap: "1rem",
-        gridTemplateColumns: "1fr 1fr",
-        width: "100vw",
-        height: "100vh",
-    },
-    game: {
-        padding: "1rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-    }
 }

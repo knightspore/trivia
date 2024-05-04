@@ -113,7 +113,29 @@ const pearEvents = log.project({ type: "pear" });
 console.log(pearEvents); // [ { id: 2, type: "pear" } ]
 ```
 
-As you can see, the event system is extensible, and easy to modify re-use in a custom implementation, eg. Redis, a database, or a file system.
+As you can see, the event system is extensible, and easy to modify re-use in a custom implementation, eg. Redis, a database, or a file system. In practice, this can be used to hydrate state as in the following example: 
+
+```typescript 
+const fruitLog = {
+    apples: 0,
+    pears: 0,
+}
+
+function hydrate() {
+    const events = log.project();
+    events.forEach(({ data: { type } }) => {
+        if (type === "apple") {
+            fruitLog.apples += 1;
+        } else if (type === "pear") {
+            fruitLog.pears += 1;
+        }
+    });
+}
+
+hydrate();
+
+console.log(fruitLog); // { apples: 1, pears: 2 }
+```
 
 ## In-Practice: an Example Game
 

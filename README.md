@@ -1,46 +1,60 @@
-# Trivia Game Engine in Typescript
+# Trivia Game Experiments in Typescript
 
-This is a proof-of-concept for a Trivia engine written in Typescript (Powered by Bun).
+This is an experiment / proof-of-concept for a Trivia game written in Typescript (Powered by Bun). 
 
-As a POC, this project provides a "server" and a "client" to run, communicating via WebSockets.
+It consists of: 
 
-## Running the example
+- Trivia - A Game Engine (using the Open Trivia Database API)
+- Event - A simple event system (with a log, and projector)
+- Example - A simple example game using React (as well as tests showing a simple game loop)
 
-First, clone the project and install the dependencies:
+```bash
+src/
+├── event/
+│   ├── event.test.ts
+│   ├── index.ts
+│   └── types.ts
+├── example/
+│   ├── core.ts
+│   ├── example-react-app/
+│   ├── example.test.ts
+│   ├── index.ts
+│   └── types.ts
+└── trivia/
+    ├── index.ts
+    ├── trivia.test.ts
+    └── types.ts
+```
+
+## Why event sourcing? 
+
+This idea was initially an exploration into creating a trivia game for Twitch streamers, where they can play with their chat. In this case, the approach of separating the game state from the game logic seemed a good fit. I've worked with CQRS before, and the experience of "replaying" the log to construct the current state was very appealing, in terms of syncing the game state across clients.
+
+In practice, the trivia and event modules could be packaged into whatever sort of server - client relationship you want to build. Most obvious would be a Websocket server, but you could also use a REST API, or even a serverless function (given that writes and reads are separate).
+
+Special shoutout to [Oskar Dudycz's notes on Event Sourcing in Node](https://github.com/oskardudycz/EventSourcing.NodeJS?tab=readme-ov-file#what-is-event) for some great reading material on the subject.
+
+## Running the Example Game
+
+Currently, the example is a simple single-player experience (open a pull request if you're interested in changing that!). It's a basic round of Trivia, with a live projection of the game state and event log so you can observe the events being logged, and corresponding state being updated as you play. 
 
 ```bash
 gh repo clone knightspore/trivia
 cd trivia
 bun install
+bun run example
 ```
 
-Then, start the server:
+## Running the Tests
+
+It's worth noting that the OpenTDB has a rate limit which can be easily avoided using Bun's test filtering.
+
+There are three tests - `trivia`, `event`, and `example` - and these can simply be appended to `bun test` to run each suite separately.
 
 ```bash
-bun run devserver
-```
-
-Next, you'll start the client:
-
-```bash
-bun run devclient
-```
-
-This should immediately trigger the server to begin sending messages, which the client will receive and log to the console.
-
-Eg. 
-
-```json
-{
-    "id": "f8a5427a-5f09-4d83-958a-66b85c60b6aa",
-    "question": "In the 1995 film &quot;Balto&quot;, who are Steele&#039;s accomplices?",
-    "answers": {
-        "A": "Jenna, Sylvie, and Dixie",
-        "B": "Nuk, Yak, and Sumac",
-        "C": "Kaltag, Nikki, and Star",
-        "D": "Dusty, Kirby, and Ralph"
-    }
-}
+bun test trivia
+bun test event
+bun test example
 ```
 
 ## How it works

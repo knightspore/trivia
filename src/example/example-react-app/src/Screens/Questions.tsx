@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { TriviaQuestion } from "../../../../trivia/types";
 import { EventTypes, GameDestroyedData, PlayerReadyData } from "../../../types";
 import { useGame } from "../GameContextProvider"
+import Button from "../Button";
 
 export default function Questions() {
 
@@ -26,15 +27,14 @@ export default function Questions() {
     const currentQuestion: TriviaQuestion | null = questions?.[index ?? 0] ?? null;
 
     return (
-        <div>
-            <h3>Question {index ? index + 1 : ""}:
-                <div
-                    dangerouslySetInnerHTML={{ __html: currentQuestion?.question ?? "" }}
-                />
-            </h3>
-            <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-evenly" }}>
+        <>
+            <h3
+                className="text-2xl"
+                dangerouslySetInnerHTML={{ __html: currentQuestion?.question ?? "" }}
+            />
+            <div className="mt-4 flex justify-evenly">
                 {currentQuestion?.haystack.map((answer, i) => (
-                    <button
+                    <Button
                         key={i}
                         onClick={() => push(EventTypes.PlayerAnswer, {
                             game_id: id,
@@ -44,10 +44,10 @@ export default function Questions() {
                         })}
                     >
                         <div dangerouslySetInnerHTML={{ __html: answer }} />
-                    </button>
+                    </Button>
                 ))}
             </div>
-        </div>
+        </>
     )
 
 }

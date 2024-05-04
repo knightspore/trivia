@@ -2,8 +2,10 @@ import { FormEvent, useEffect, useState } from "react";
 import { Category, Difficulty, QuestionFormat } from "../../../../trivia/types";
 import { EventTypes, GameConfiguredData } from "../../../types";
 import { useGame } from "../GameContextProvider";
+import Button from "../Button";
 
 export default function Setup() {
+
     const { events: { push }, game } = useGame();
 
     const [config, setConfig] = useState<GameConfiguredData['config']>({
@@ -27,8 +29,8 @@ export default function Setup() {
     }
 
     return (
-        <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div>
+        <form onSubmit={submit} className="space-y-4">
+            <div className="flex flex-col gap-2">
                 <label htmlFor="category">Category</label>
                 <select
                     id="category"
@@ -63,7 +65,7 @@ export default function Setup() {
                 </select>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-2">
                 <label htmlFor="difficulty">Difficulty</label>
                 <select
                     id="difficulty"
@@ -77,7 +79,7 @@ export default function Setup() {
                 </select>
             </div>
 
-            <div>
+            <div className="flex flex-col gap-2">
                 <label htmlFor="question_format">Question Format</label>
                 <select
                     id="question_format"
@@ -90,23 +92,21 @@ export default function Setup() {
                 </select>
             </div>
 
-            <div>
-                <label htmlFor="amount">Amount</label>
-                <span>
-                    <input
-                        id="amount"
-                        name="amount"
-                        type="range"
-                        min="1"
-                        max="20"
-                        defaultValue={config.amount}
-                        onChange={(e) => setConfig({ ...config, amount: parseInt(e.target.value) })}
-                    />
-                    {config.amount}
-                </span>
+            <div className="flex flex-col gap-2">
+                <label htmlFor="amount">Amount ({config.amount})</label>
+                <input
+                    className="appearance-none rounded bg-cyan-200 p-1 border border-pink-700 accent-pink-700"
+                    id="amount"
+                    name="amount"
+                    type="range"
+                    min="1"
+                    max="20"
+                    defaultValue={config.amount}
+                    onChange={(e) => setConfig({ ...config, amount: parseInt(e.target.value) })}
+                />
             </div>
 
-            <button type="submit">Begin</button>
+            <Button type="submit">Begin</Button>
         </form>
     )
 }

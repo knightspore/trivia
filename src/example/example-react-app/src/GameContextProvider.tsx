@@ -113,14 +113,18 @@ export default function GameContextProvider({ children }: { children: React.Reac
                     }))
                     break;
                 case EventTypes.GameDestroyed:
-                    setGame((current) => ({
-                        ...current,
-                        ended_at: event.date,
-                        score: game.questions?.reduce((acc, q) => {
-                            const answer = game.answers[q.id]
-                            return acc + (q.needle === parseInt(answer) ? 1 : 0)
-                        }, 0) ?? 0
-                    }))
+                    setGame((current) => {
+                        let score = 0;
+                        for (const q of current.questions ?? []) {
+                            const answer = current.answers[q.id]
+                            score += q.needle === parseInt(answer) ? 1 : 0
+                        }
+                        return {
+                            ...current,
+                            ended_at: event.date,
+                            score,
+                        }
+                    })
                     break;
                 default:
                     console.log("Unhandled event", event)

@@ -1,15 +1,20 @@
 import { EventTypes } from "../../../types";
+import Button from "../Button";
 import { useGame } from "../GameContextProvider"
 
 export default function NoGame() {
 
     const { events: { push } } = useGame();
 
+    function newGame() {
+        push(EventTypes.GameNew, {
+            game_id: crypto.randomUUID()
+        })
+    }
+
     return (
-        <button
-            onClick={() => push(EventTypes.GameNew, { game_id: crypto.randomUUID() })}
-        >
+        <Button onClick={() => newGame()}>
             Start
-        </button >
+        </Button>
     )
 }

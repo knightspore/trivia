@@ -8,20 +8,9 @@ export default function App() {
     return (
         <StrictMode>
             <GameContextProvider>
-                <main style={{
-                    display: "grid",
-                    gap: "1rem",
-                    gridTemplateColumns: "1fr 1fr",
-                    width: "100vw",
-                    height: "100vh",
-                }}>
-                    <div style={{
-                        padding: "1rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                    }}>
-                        <h1>A Quick game of Trivia</h1>
+                <main className="p-4 text-pink-700 bg-cyan-200 min-h-screen">
+                    <h1 className="text-4xl text-center font-bold">A Quick Game of Trivia</h1>
+                    <div className="flex justify-center mt-4 mb-8">
                         <GameScreenSwitcher />
                     </div>
                     <LogCodeBlock />

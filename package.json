@@ -3,11 +3,11 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "example": "bun run src/example/index.ts",
+    "example": "cd src/example/example-react-app && bun dev",
     "lint": "eslint"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
